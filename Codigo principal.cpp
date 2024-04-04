@@ -31,39 +31,62 @@ void llenar(int***& M,int*& Di, int N){
                 else{cont++;
                     M[i][fil][col]=cont;}}}}}
                     
-int *puntero(int N,int K0,int K1, int***& M,int Di0,int Di1){
-    int* pun=new int[N];
+int** puntero(int N,int K0,int K1, int***& M,int Di0,int Di1){
+    int** pun=new int*[N];
     for (int i=0; i<N;i++){
         if (i>0 && Di1<Di0){
-            pun[i]=M[i][K0-2][K1-2];}
-        else{pun[i]=M[i][K0-1][K1-1];}}
+            pun[i]=&M[i][K0-2][K1-2];}
+        else{pun[i]=&M[i][K0-1][K1-1];}}
     return pun;}
     
-bool cumplimiento(int K[],int N,int pu[],int& Mala1,int& Mala2,int& malK){
+bool cumplimiento(int K[],int N,int**& pu,int& Mala1,int& Mala2,int& malK){
     int j=0;
     for (int i=2;i<=N;i++){
         if (K[i]==1){
-            if (pu[j]>pu[j+1]){
+            if (*pu[j]>*pu[j+1]){
                 j++;}
             else{Mala1=j;
                  Mala2=j+1;
                  malK=K[i];
                  return false;}}
         else if(K[i]==-1){
-            if (pu[j]<pu[j+1]){
+            if (*pu[j]<*pu[j+1]){
                 j++;}
             else{Mala1=j;
                  Mala2=j+1;
                  malK=K[i];
                  return false;}}
         else {
-            if (pu[j]==pu[j+1]){
+            if (*pu[j]==*pu[j+1]){
                 j++;}
             else{Mala1=j;
                  Mala2=j+1;
                  malK=K[i];
                  return false;}}}
     return true;}
+
+int girar(int***& M, int Mala,int Di[], int*& G){
+    int Trans[Di[Mala]][Di[Mala]];
+    for (int i=0;i<Di[Mala];i++){
+        for(int j=0;j<Di[Mala];j++){
+            Trans[i][j]=M[Mala][j][i];}}
+    for (int i=Di[Mala]-1,u=0; i>=0;i--,u++){
+        for (int j=0;j<Di[Mala];j++){
+            M[Mala][u][j]=Trans[i][j];}}
+    if (G[Mala]==3){
+        G[Mala]=0;}
+    else{G[Mala]++;}
+    return 0;}
+
+//int Aumentar(
+          
+int* salida (int Di[],int N){
+    int* X= new int[N];
+    int j=0;
+    for (int i=N-1;i>=0;i--){
+        X[j]=Di[i];
+        j++;}
+    return X;}
     
             
 int main(){
@@ -74,8 +97,14 @@ int main(){
     int N=(sizeof(K)/sizeof(K[0]))-1;
     int*** M=matrizM(N,K[0],K[1],Di,G);
     llenar(M,Di,N);
-    int* pun=puntero(N,K[0],K[1],M,Di[0],Di[1]);
+    int** pun=puntero(N,K[0],K[1],M,Di[0],Di[1]);
     bool cumple=cumplimiento(K,N,pun,Mala1,Mala2,malK);
     cout <<cumple<<Mala1<<Mala2<<malK<< endl;
+    int* X=salida(Di,N);
+    girar(M,2,Di,G);
+    for (int i = 0; i <Di[2]; ++i) {
+            for (int j = 0; j < Di[2];++j) {
+                cout << M[2][i][j] << " ";}
+            cout << endl;}
     for (int i = 0; i < N; ++i) {
-        cout << Di[i] <<G[i]<<pun[i]<< " ";}}
+        cout << Di[i] <<X[i]<<G[i]<<*pun[i]<< " ";}}
