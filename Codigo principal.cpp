@@ -147,6 +147,17 @@ void Aumentar(int***&M,int Mala,int*& Di,int K0,int K1,int*& pos,int**& pun){
                  Aumentar(M,Mala2,Di,K0,K1,pos,pun);
                  if (*pun[Mala1]<*pun[Mala2]){
                          return;}}}}}
+                         
+void liberar(int***& M, int* Di, int* G, int** pun, int* pos, int N) {
+    for (int i = 0; i < N; ++i) {
+        for (int j = 0; j < Di[i]; ++j) {
+            delete[] M[i][j];}
+        delete[] M[i];}
+    delete[] M;
+    delete[] Di;
+    delete[] G;
+    delete[] pos;
+    delete[] pun;}                         
              
 int* salida (int Di[],int N){
     int* X=  new int[N];
@@ -183,4 +194,5 @@ int main(){
         cout << G[i];
         if (i==0){
             cout << '}' << endl;}
-        else {cout << ",";}}}
+        else {cout << ",";}}
+    liberar(M, Di, G, pun, pos, N);}
