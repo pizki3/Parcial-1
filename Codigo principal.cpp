@@ -101,6 +101,47 @@ void Aumentar(int***&M,int Mala,int*& Di,int K0,int K1,int*& pos,int**& pun){
            if (col==fil && col==(Di[Mala]/2)){}
            else{cont++;
                 M[Mala][fil][col]=cont;}}}}
+                
+ void transfor(int***&M,int Mala1,int Mala2,int*& Di,int K0,int K1,int*& pos,int**& pun,int*& G,int Kmal){
+     if (Kmal==0){
+         if (Di[Mala1]>Di[Mala2]){
+             while (Di[Mala1]>Di[Mala2]){
+                 Aumentar(M,Mala2,Di,K0,K1,pos,pun);}}
+         else if (Di[Mala1]<Di[Mala2]){
+             while (Di[Mala1]<Di[Mala2]){
+                 Aumentar(M,Mala1,Di,K0,K1,pos,pun);}}
+         else {
+          while (G[Mala1]!=0){
+              girar(M,Mala1,Di,G);}
+          while (G[Mala2]!=0){
+              girar(M,Mala2,Di,G);}}}
+     else if (Kmal==1){
+         while (*pun[Mala1]<=*pun[Mala2]){
+             for (int j=0;*pun[Mala1]<=*pun[Mala2] || j<=4;j++){
+                 for (int i=0;*pun[Mala1]<=*pun[Mala2] || j<=4;i++){
+                     girar(M,Mala2,Di,G);}
+                 if (*pun[Mala1]<=*pun[Mala2]){
+                     girar(M,Mala1,Di,G);}}
+             if (*pun[Mala1]<=*pun[Mala2]){
+                 Aumentar(M,Mala1,Di,K0,K1,pos,pun);}}}
+     else {
+         while (*pun[Mala1]>=*pun[Mala2]){
+             for (int j=0;j<4;j++){
+                 for (int i=0;i<4;i++){
+                     girar(M,Mala2,Di,G);
+                     if (*pun[Mala1]<*pun[Mala1]){
+                         return;}}
+                 if (*pun[Mala1]>=*pun[Mala2]){
+                     girar(M,Mala1,Di,G);
+                     if (*pun[Mala1]<*pun[Mala1]){
+                         return;}}}
+             if (*pun[Mala1]>=*pun[Mala2]){
+                 cout <<*pun[Mala1]<< endl;
+                 Aumentar(M,Mala2,Di,K0,K1,pos,pun);
+                 if (*pun[Mala1]<*pun[Mala1]){
+                         return;}}}}}
+             
+              
     
 int* salida (int Di[],int N){
     int* X=  new int[N];
@@ -123,17 +164,11 @@ int main(){
     int** pun=puntero(N,K[0],K[1],M,Di[0],Di[1],pos);
     bool cumple=cumplimiento(K,N,pun,Mala1,Mala2,malK);
     cout <<cumple<<Mala1<<Mala2<<malK<< endl;
+    transfor(M,Mala1,Mala2,Di,K[0],K[1],pos,pun,G,malK);
     int* X=salida(Di,N);
-    girar(M,2,Di,G);
-    Aumentar(M,1,Di,K[0],K[1],pos,pun);
     for (int i = 0; i <Di[2]; ++i) {
             for (int j = 0; j < Di[2];++j) {
                 cout << M[2][i][j] << " ";}
             cout << endl;}
     for (int i = 0; i < N; ++i) {
         cout << Di[i]<<G[i]<<*pun[i]<< " ";}}
-            for (int j = 0; j < Di[2];++j) {
-                cout << M[2][i][j] << " ";}
-            cout << endl;}
-    for (int i = 0; i < N; ++i) {
-        cout << Di[i] <<X[i]<<G[i]<<*pun[i]<< " ";}}
