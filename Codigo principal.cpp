@@ -167,9 +167,7 @@ int main(){
     int* pos;
     int* Di;
     int* G;
-    int Mala1,Mala2,malK;
-    int MalK0;
-    int cer=0;
+    int Mala1,Mala2,malK,MalK0;
     int igual=0;
     int N=(sizeof(K)/sizeof(K[0]))-1;
     int*** M=matrizM(N,K[0],K[1],Di,G);
@@ -179,13 +177,11 @@ int main(){
     MalK0=malK;
     while (cumple==false){
         cumple=cumplimiento(K,N,pun,Mala1,Mala2,malK);
-        if (malK==0){
-            cer++;}
         if (malK==MalK0){
             igual++;}
         else {igual=0;}
         MalK0=malK;
-        transfor(M,Mala1,Mala2,Di,K[0],K[1],pos,pun,G,malK,igual,cer);}
+        transfor(M,Mala1,Mala2,Di,K[0],K[1],pos,pun,G,malK,igual);}
     int* X=salida(Di,N);
     cout << "X{";
     for (int i = 0; i < N; ++i) {
