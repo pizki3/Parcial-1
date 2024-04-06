@@ -101,7 +101,7 @@ void Aumentar(int***&M,int Mala,int*& Di,int K0,int K1,int*& pos,int**& pun){
            else{cont++;
                 M[Mala][fil][col]=cont;}}}}
                 
- void transfor(int***&M,int Mala1,int Mala2,int*& Di,int K0,int K1,int*& pos,int**& pun,int*& G,int Kmal,int& igual){
+ void transfor(int***&M,int Mala1,int Mala2,int*& Di,int K0,int K1,int*& pos,int**& pun,int*& G,int Kmal,int& igual,int& cer){
      if (Kmal==0){
          if (Di[Mala1]>Di[Mala2]){
              while (*pun[Mala1]!=*pun[Mala2]){
@@ -111,7 +111,7 @@ void Aumentar(int***&M,int Mala,int*& Di,int K0,int K1,int*& pos,int**& pun){
                  Aumentar(M,Mala1,Di,K0,K1,pos,pun);}}
          else {
           while (*pun[Mala1]!=*pun[Mala2]){
-              girar(M,Mala2,Di,G);}}}
+                  girar(M,Mala1,Di,G);}}}
      else if (Kmal==1){
          while (*pun[Mala1]<=*pun[Mala2]){
              if (igual!=4){
@@ -154,7 +154,7 @@ void liberar(int***& M, int* Di, int* G, int** pun, int* pos, int N) {
     delete[] pun;}                         
              
 int* salida (int Di[],int N){
-    int* X=  new int[N];
+    int* X= new int[N];
     int j=0;
     for (int i=N-1;i>=0;i--){
         X[j]=Di[i];
@@ -163,25 +163,29 @@ int* salida (int Di[],int N){
     
             
 int main(){
-    int K[]={4,3,1,-1,1,1,-1,-1,-1,-1,-1,-1};
+    int K[]={4,3,0,-1,1,0,1};
     int* pos;
     int* Di;
     int* G;
     int Mala1,Mala2,malK;
-    int MalK0=0;
+    int MalK0;
+    int cer=0;
     int igual=0;
     int N=(sizeof(K)/sizeof(K[0]))-1;
     int*** M=matrizM(N,K[0],K[1],Di,G);
     llenar(M,Di,N);
     int** pun=puntero(N,K[0],K[1],M,Di[0],Di[1],pos);
-    bool cumple=false;
+    bool cumple=cumplimiento(K,N,pun,Mala1,Mala2,malK);
+    MalK0=malK;
     while (cumple==false){
         cumple=cumplimiento(K,N,pun,Mala1,Mala2,malK);
+        if (malK==0){
+            cer++;}
         if (malK==MalK0){
             igual++;}
         else {igual=0;}
         MalK0=malK;
-        transfor(M,Mala1,Mala2,Di,K[0],K[1],pos,pun,G,malK,igual);}
+        transfor(M,Mala1,Mala2,Di,K[0],K[1],pos,pun,G,malK,igual,cer);}
     int* X=salida(Di,N);
     cout << "X{";
     for (int i = 0; i < N; ++i) {
