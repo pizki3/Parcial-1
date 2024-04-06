@@ -101,7 +101,7 @@ void Aumentar(int***&M,int Mala,int*& Di,int K0,int K1,int*& pos,int**& pun){
            else{cont++;
                 M[Mala][fil][col]=cont;}}}}
                 
- void transfor(int***&M,int Mala1,int Mala2,int*& Di,int K0,int K1,int*& pos,int**& pun,int*& G,int Kmal,int& igual,int& cer){
+ void transfor(int***&M,int Mala1,int Mala2,int*& Di,int K0,int K1,int*& pos,int**& pun,int*& G,int Kmal,int& igual){
      if (Kmal==0){
          if (Di[Mala1]>Di[Mala2]){
              while (*pun[Mala1]!=*pun[Mala2]){
