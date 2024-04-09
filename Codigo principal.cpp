@@ -9,11 +9,11 @@ int ***matrizM(int N, int K0, int K1, int*& Di, int*& G){
     if (K0>=K1){
         a=K0;}
     else {a=K1;}
+    if (a==1){
+        a=a+1;}
     for (int i=0;i<N;i++){
-        if ((i==0 && a%2==0)||(i>0 && K0==K1 && a%2==0)){
+        if ((i>=0 && a%2==0)){
             b=a+1;}
-        else if (i>0 && a%2==0){
-            b=a-1;}
         else{b=a;}
         M[i]=new int*[b];
         Di[i]=b;
@@ -104,13 +104,15 @@ void Aumentar(int***&M,int Mala,int*& Di,int K0,int K1,int*& pos,int**& pun){
  void transfor(int***&M,int Mala1,int Mala2,int*& Di,int K0,int K1,int*& pos,int**& pun,int*& G,int Kmal,int& igual){
      if (Kmal==0){
          if (Di[Mala1]>Di[Mala2]){
-             while (*pun[Mala1]!=*pun[Mala2]){
+             if (*pun[Mala1]!=*pun[Mala2]){
                  Aumentar(M,Mala2,Di,K0,K1,pos,pun);}}
          else if (Di[Mala1]<Di[Mala2]){
-             while (*pun[Mala1]!=*pun[Mala2]){
+             if (*pun[Mala1]!=*pun[Mala2]){
                  Aumentar(M,Mala1,Di,K0,K1,pos,pun);}}
          else {
-          while (*pun[Mala1]!=*pun[Mala2]){
+             if(*pun[Mala1]!=*pun[Mala2]){
+                 girar(M,Mala2,Di,G);
+                  girar(M,Mala2,Di,G);
                   girar(M,Mala1,Di,G);}}}
      else if (Kmal==1){
          while (*pun[Mala1]<=*pun[Mala2]){
@@ -163,13 +165,20 @@ int* salida (int Di[],int N){
     
             
 int main(){
-    int K[]={4,3,0,-1,1,0,1};
+    int K[]={1,1,0,1,1,1,-1,0,-1,-1,0,1,1,0,0,0,0};
     int* pos;
     int* Di;
     int* G;
     int Mala1,Mala2,malK,MalK0;
     int igual=0;
     int N=(sizeof(K)/sizeof(K[0]))-1;
+    for (int i=0; i<N; i++){
+        if (i<=1 && K[i]<1){
+            cout << "Posicion invalida" << endl;
+            return 0;}
+        else if (i>1 && (K[i]<-1||K[i]>1)){
+            cout << "Condiciones invalidas" << endl;
+            return 0;}}
     int*** M=matrizM(N,K[0],K[1],Di,G);
     llenar(M,Di,N);
     int** pun=puntero(N,K[0],K[1],M,Di[0],Di[1],pos);
@@ -195,4 +204,5 @@ int main(){
         if (i==0){
             cout << '}' << endl;}
         else {cout << ",";}}
-    liberar(M, Di, G, pun, pos, N);}
+    liberar(M, Di, G, pun, pos, N);
+    return 0;}
